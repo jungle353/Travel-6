@@ -59,5 +59,20 @@ select * from notice where num = 117
 
 select * from NOTICE_comment
 delete from notice_comment where comment_num = 2
---update notice_comment set comment_content='수정된내용' where comment_num =1
+update notice_comment set comment_content='수정된내용' where comment_num =1
+
+
+
+
+select * from notice_comment
+
+delete from notice_comment where repRoot = 5
+
+
+
+
+
+
+
+
 

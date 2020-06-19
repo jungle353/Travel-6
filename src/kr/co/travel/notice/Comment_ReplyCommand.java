@@ -47,6 +47,7 @@ public class Comment_ReplyCommand implements Notice_Command {
 		NoticeDAO dao = new NoticeDAO();
 		CommentDTO dto = new CommentDTO(comment_num, comment_board, comment_content, comment_writer, comment_day, repRoot, -1, repIndent);
 		dao.reply(comment_num, dto);
+		dao.decreaseReadCnt(comment_board);
 		
 		return new Notice_CommandAction(true, "notice_read.do?num="+comment_board);
 	}

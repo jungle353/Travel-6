@@ -31,6 +31,7 @@ public class Comment_UpdateCommand implements Notice_Command {
 		NoticeDAO dao = new NoticeDAO();
 		CommentDTO cDto = new CommentDTO(comment_num, comment_board, comment_content, comment_writer, null, -1, -1, -1);
 		dao.comment_update(cDto);
+		dao.decreaseReadCnt(comment_board);
 		
 		return new Notice_CommandAction(true, "notice_read.do?num="+comment_board);
 	}

@@ -1,3 +1,4 @@
+<%@page import="kr.co.travel.notice.Notice_LoginDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -14,36 +15,34 @@
 
 <script>
 
-	function myInsert2(myIns2${cl.comment_num}) {
+	function myInsert2(myIns2, myUp2) {
+		let isLogin = "${login.id == null ? 'false' : 'true'}";
 
-		var z = document.getElementById(myIns2${cl.comment_num});
-		if (z.style.display === "none") {
-			z.style.display = "block";
-		} else {
-			z.style.display = "none";
+		if (isLogin == 'true') {
+			let insertDiv = document.getElementById(myIns2);
+			let updateBtn = document.getElementById(myUp2);
+			if (insertDiv.style.display === "none") {
+				updateBtn.setAttribute( 'disabled', 'true');
+				insertDiv.style.display = "block";
+			} else {
+				updateBtn.removeAttribute('disabled');
+				insertDiv.style.display = "none";
+			}
+		}else{
+			window.location.href = "notice_login.jsp"
 		}
 	}
 	
-/* 	$(document).ready(function() {
-	    if ($("#wtype").val() == "build_edit") {
-	 
-	        $("#myIns2${cl.comment_num}").css("display", "inline");
-	 
-	        $("#myIns2${cl.comment_num}").css({
-	            display: "inline"
-	        });
-	 
-	    };
-	})
- */
-	
-	function myUpdate2(myUp2) {
+	function myUpdate2(myUp2, myIns2) {
 
 		var x = document.getElementById(myUp2);
+		var y = document.getElementById(myIns2);
 		if (x.style.visibility === "hidden") {
 			x.style.visibility = "visible";
+			y.style.visibility = "hidden";
 		} else {
 			x.style.visibility = "hidden";
+			y.style.visibility = "visible";
 		}
 	}
 	
@@ -120,7 +119,10 @@
 				</c:when>
 		
 				<c:otherwise>
-					<a class="btn btn-outline-primary btn-sm" onclick="myInsert2('myIns2${cl.comment_num}')">댓글달기</a>
+					<button class="btn btn-outline-primary btn-sm" id="myInserBtn${cl.comment_num}" onclick="myInsert2('myIns2${cl.comment_num}', 'myUpdateBtn${cl.comment_num}')">댓글달기</button>
+					<button class="btn btn-outline-primary btn-sm" id="myUpdateBtn${cl.comment_num}" onclick="myUpdate2('myUp2${cl.comment_num}', 'myInserBtn${cl.comment_num}')">수정</button>
+					<a class="btn btn-outline-primary btn-sm" href="notice_cdelete.do?comment_board=${cl.comment_board}&comment_num=${cl.comment_num}" onclick="return confirm('삭제하시겠습니까?');">삭제</a>
+					
 						<div id="myIns2${cl.comment_num}" style="display: none;">
 							<form action="notice_reply.do" method="post">
 								<input type="hidden" name="comment_num" value="${cl.comment_num}"> 
@@ -136,19 +138,6 @@
 								<input style="float: left" type="submit" value="등록" class="btn btn-outline-primary btn-sm">
 							</form>
 						</div>
-					
-				</c:otherwise>
-	
-		</c:choose>
-		
-		<c:choose>
-		
-				<c:when test="${empty login}">	
-					
-				</c:when>
-		
-				<c:otherwise>
-					<a class="btn btn-outline-primary btn-sm" onclick="myUpdate2('myUp2${cl.comment_num}')">수정</a>
 						<div id="myUp2${cl.comment_num}" style="visibility: hidden">
 							<form action="notice_cupdate.do" method="get">
 								<input type="hidden" name="comment_num" value="${cl.comment_num}"> 
@@ -164,11 +153,10 @@
 								<button style="float: left" type="submit" class="btn btn-outline-primary btn-sm">수정</button>
 							</form>
 						</div>
+					
 				</c:otherwise>
 	
 		</c:choose>
-
-
 		</div>
 		<br><br>
 	</c:forEach>

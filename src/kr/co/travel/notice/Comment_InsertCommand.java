@@ -31,8 +31,10 @@ public class Comment_InsertCommand implements Notice_Command {
 		
 		NoticeDAO dao = new NoticeDAO();
 		CommentDTO cDto = new CommentDTO(-1, comment_board, comment_content, comment_writer, null, 0, 0, 0);
+		
 		dao.comment_insert(cDto);
-
+		dao.decreaseReadCnt(comment_board);
+		
 		return new Notice_CommandAction(true, "notice_read.do?num="+comment_board);
 	}
 

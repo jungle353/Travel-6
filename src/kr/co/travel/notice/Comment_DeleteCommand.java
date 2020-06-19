@@ -25,8 +25,26 @@ public class Comment_DeleteCommand implements Notice_Command {
 			comment_board = Integer.parseInt(scomment_board);
 		}
 		
+		String srepRoot = request.getParameter("repRoot");
+		int repRoot = -1;
+		if (srepRoot != null) {
+			repRoot = Integer.parseInt(srepRoot);
+		}
+		
+		String srepIndent = request.getParameter("repIndent");
+		int repIndent = -1;
+		if (srepIndent != null) {
+			repIndent = Integer.parseInt(srepIndent);
+		}
+		
 		NoticeDAO dao = new NoticeDAO();
-		dao.comment_delete(comment_num);
+		dao.decreaseReadCnt(comment_board);
+		
+		if(repIndent == 0) {
+			dao.comment_deleteAll(repRoot, comment_board);
+		} else {
+			dao.comment_delete(comment_num);			
+		}
 		
 		return new Notice_CommandAction(true, "notice_read.do?num=" + comment_board);
 	}

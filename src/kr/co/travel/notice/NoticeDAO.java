@@ -140,6 +140,23 @@ public class NoticeDAO {
 		}
 
 	}
+	
+	public void decreaseReadCnt(int num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "update notice set readcnt = readcnt-1 where num=?";
+		try {
+			conn = dataFactory.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, null);
+		}
+	}
+
 
 	private void increaseReadCnt(Connection conn, int num) {
 		PreparedStatement pstmt = null;
@@ -555,5 +572,25 @@ public class NoticeDAO {
 		}finally {
 			closeAll(conn, pstmt, null);
 		}
+	}
+
+	public void comment_deleteAll(int repRoot, int comment_board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "delete from notice_comment where repRoot = ? and comment_board = ?";
+		try {
+			
+			conn = dataFactory.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, repRoot);
+			pstmt.setInt(2, comment_board);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeAll(conn, pstmt, null);
+		}
+
 	}
 }
