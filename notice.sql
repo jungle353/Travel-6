@@ -65,10 +65,13 @@ update notice_comment set comment_content='수정된내용' where comment_num =1
 
 
 select * from notice_comment
+select * from notice
 
 delete from notice_comment where repRoot = 5
 
+ALTER TABLE notice ADD (filename VARCHAR2(100));
 
+select * from notice where num=
 
 
 

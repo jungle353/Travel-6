@@ -63,7 +63,9 @@ public class FrontController extends HttpServlet {
 			com = new Comment_UpdateCommand();
 		} else if (sp.equalsIgnoreCase("/notice_cdelete.do")) {
 			com = new Comment_DeleteCommand();
-		}
+		} else if (sp.equalsIgnoreCase("/notice_filedownload.do")) {
+			com = new Notice_FileDownloadCommand();
+		} 
 	
 		
 		if (com != null) {

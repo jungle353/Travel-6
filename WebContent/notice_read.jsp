@@ -1,4 +1,3 @@
-<%@page import="kr.co.travel.notice.Notice_LoginDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -15,23 +14,34 @@
 
 <script>
 
-	function myInsert2(myIns2, myUp2) {
-		let isLogin = "${login.id == null ? 'false' : 'true'}";
+	function onDownload(num) {
+	
+	var o = document.getElementById("ifrm_filedown");
 
-		if (isLogin == 'true') {
+	o.src = "download.do?num=" + num;
+
+	}
+	
+	function myInsert2(myIns2, myUp2) {
+			
 			let insertDiv = document.getElementById(myIns2);
 			let updateBtn = document.getElementById(myUp2);
-			if (insertDiv.style.display === "none") {
-				updateBtn.setAttribute( 'disabled', 'true');
-				insertDiv.style.display = "block";
-			} else {
-				updateBtn.removeAttribute('disabled');
-				insertDiv.style.display = "none";
+				if (insertDiv.style.display === "none") {
+					updateBtn.setAttribute( 'disabled', 'true');
+					insertDiv.style.display = "block";
+				} else {
+					updateBtn.removeAttribute('disabled');
+					insertDiv.style.display = "none";
 			}
-		}else{
-			window.location.href = "notice_login.jsp"
+							
+				var tid = "<c:out value = '${login.id}'/>"
+				
+				if(tid == null) {
+					alert('로그아웃 되었습니다. 다시 로그인하세요.')
+					window.location.href= 'notice_loginui.do';
+				}
+	
 		}
-	}
 	
 	function myUpdate2(myUp2, myIns2) {
 
@@ -44,6 +54,14 @@
 			x.style.visibility = "hidden";
 			y.style.visibility = "visible";
 		}
+		
+		var uid = "<c:out value = '${login.id}'/>"
+		
+		if(uid == null) {
+			alert('로그아웃 되었습니다. 다시 로그인하세요.')
+			window.location.href= 'notice_loginui.do';
+		}
+		
 	}
 	
 </script>
@@ -51,10 +69,12 @@
 </head>
 <body>
 
+<iframe id="ifrm_filedown" style="position:absolute; z-index:1; visibility:hidden;"></iframe>
+
 	<div class="jumbotron">
 		<div class="container">
-<h1>공지사항</h1>
-			<p>공지사항입니다.</p>
+			<h1>공지사항</h1>
+				<p>공지사항입니다.</p>
 
 			<div align="right">
 				<c:if test="${login.id == 'adm'}">
@@ -66,14 +86,24 @@
 
 		</div>
 	</div>
-
 	<div class="container">
 		<h3>${dto.title}</h3>
 		<p>
 			<strong>${dto.writer} </strong>&nbsp;&nbsp;&nbsp; ${dto.writeday} &nbsp;&nbsp;&nbsp; 조회수 : ${dto.readcnt}
 		</p>
 
-
+		<c:choose>
+		
+			<c:when test="${empty dto.filename}">	
+							
+			</c:when>
+		
+			<c:otherwise>
+				<p align="right">
+					<a href="notice_filedownload.do?num=${dto.num}" onclick="onDownload('${dto.num}')">첨부 파일 : ${dto.filename}</a>
+				</p>
+			</c:otherwise>
+		</c:choose>
 		<p>
 			<br>${dto.content}
 		<hr>

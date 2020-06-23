@@ -22,7 +22,7 @@ public class Notice_UpdateCommand implements Notice_Command {
 		String content = request.getParameter("content");
 		
 		NoticeDAO dao = new NoticeDAO();
-		dao.update(new NoticeDTO(num, writer, title, content, null, 0));
+		dao.update(new NoticeDTO(num, writer, title, content, null, 0, null));
 		
 		return new Notice_CommandAction(true, "notice_list.do");
 	}

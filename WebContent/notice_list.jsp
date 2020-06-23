@@ -38,7 +38,7 @@
 	<table border="1" class="table">
 		<thead class="thead-dark">
 			<tr>
-				<th>번호</th>
+				
 				<th>제목</th>
 				<th>작성자</th>
 				<th>날짜</th>
@@ -49,8 +49,7 @@
 		<tbody>
 			<c:forEach items="${list}" var="no_dto">
 				<tr>
-					<td>${no_dto.num}</td>
-
+					
 					<td width="300px">
 						<a href="notice_read.do?num=${no_dto.num}">${no_dto.title}</a>
 					</td>

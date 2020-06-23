@@ -2,7 +2,7 @@ package kr.co.travel.notice;
 
 import java.io.Serializable;
 
-public class NoticeDTO implements Serializable{
+public class NoticeDTO implements Serializable {
 
 	/**
 	 * 
@@ -14,12 +14,22 @@ public class NoticeDTO implements Serializable{
 	private String content;
 	private String writeday;
 	private int readcnt;
-	
+	private String filename;
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
 	public NoticeDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public NoticeDTO(int num, String writer, String title, String content, String writeday, int readcnt) {
+	public NoticeDTO(int num, String writer, String title, String content, String writeday, int readcnt,
+			String filename) {
 		super();
 		this.num = num;
 		this.writer = writer;
@@ -27,6 +37,7 @@ public class NoticeDTO implements Serializable{
 		this.content = content;
 		this.writeday = writeday;
 		this.readcnt = readcnt;
+		this.filename = filename;
 	}
 
 	public int getNum() {
@@ -102,5 +113,5 @@ public class NoticeDTO implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

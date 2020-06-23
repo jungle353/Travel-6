@@ -82,8 +82,9 @@ public class NoticeDAO {
 				String content = rs.getString("content");
 				String writeday = rs.getString("writeday");
 				int readcnt = rs.getInt("readcnt");
+				String filename = rs.getString("filename");
 
-				list.add(new NoticeDTO(num, writer, title, content, writeday, readcnt));
+				list.add(new NoticeDTO(num, writer, title, content, writeday, readcnt, filename));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,7 +118,7 @@ public class NoticeDAO {
 	public void insert(NoticeDTO noticeDTO) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "insert into notice (num, writer, title, content) values (?,?,?,?)";
+		String sql = "insert into notice (num, writer, title, content, filename) values (?,?,?,?,?)";
 
 		try {
 			conn = dataFactory.getConnection();
@@ -131,14 +132,13 @@ public class NoticeDAO {
 			pstmt.setString(4, noticeDTO.getContent());
 			// pstmt.setString(5, noticeDTO.getWriteday());
 			// pstmt.setInt(6, noticeDTO.getReadcnt());
-
+			pstmt.setString(5, noticeDTO.getFilename());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			closeAll(conn, pstmt, null);
 		}
-
 	}
 	
 	public void decreaseReadCnt(int num) {
@@ -195,8 +195,8 @@ public class NoticeDAO {
 				String writeday = rs.getString("writeday");
 				int readcnt = rs.getInt("readcnt");
 				String content = rs.getString("content");
-
-				dto = new NoticeDTO(num, writer, title, content, writeday, readcnt);
+				String filename = rs.getString("filename");
+				dto = new NoticeDTO(num, writer, title, content, writeday, readcnt, filename);
 				isOk = true;
 			}
 
@@ -237,8 +237,9 @@ public class NoticeDAO {
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String writeday = rs.getString("writeday");
+				String filename = rs.getString("filename");
 
-				dto = new NoticeDTO(num, writer, title, content, writeday, 0);
+				dto = new NoticeDTO(num, writer, title, content, writeday, 0, filename);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -335,7 +336,7 @@ public class NoticeDAO {
 				String writer = rs.getString("writer");
 				String writeday = rs.getString("writeday");
 				int readcnt = rs.getInt("readcnt");
-				NoticeDTO dto = new NoticeDTO(num, writer, title, null, writeday, readcnt);
+				NoticeDTO dto = new NoticeDTO(num, writer, title, null, writeday, readcnt, null);
 				list.add(dto);
 			}
 			to.setList(list);
